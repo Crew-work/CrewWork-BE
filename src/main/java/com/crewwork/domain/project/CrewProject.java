@@ -1,6 +1,6 @@
 package com.crewwork.domain.project;
 
-import com.crewwork.domain.BaseTimeEntity;
+import com.crewwork.domain.BaseEntity;
 import com.crewwork.domain.crew.Crew;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class CrewProject extends BaseTimeEntity {
+public class CrewProject extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "project_id")
@@ -24,6 +24,7 @@ public class CrewProject extends BaseTimeEntity {
     private String link;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "crew_id")
     private Crew crew;
     @Builder
     private CrewProject(String name, String introduce, String link, Crew crew) {

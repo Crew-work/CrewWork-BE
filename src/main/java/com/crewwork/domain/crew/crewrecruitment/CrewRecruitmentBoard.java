@@ -2,7 +2,6 @@ package com.crewwork.domain.crew.crewrecruitment;
 
 import com.crewwork.domain.BaseEntity;
 import com.crewwork.domain.crew.Crew;
-import com.crewwork.domain.member.Member;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,18 +21,13 @@ public class CrewRecruitmentBoard extends BaseEntity {
     @JoinColumn(name = "crew_id")
     private Crew crew;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "writer_id")
-    private Member writer;
-
     private String title;
     @Column(columnDefinition = "TEXT")
     private String content;
 
     @Builder
-    private CrewRecruitmentBoard(Crew crew, Member writer, String title, String content) {
+    private CrewRecruitmentBoard(Crew crew, String title, String content) {
         this.crew = crew;
-        this.writer = writer;
         this.title = title;
         this.content = content;
     }
