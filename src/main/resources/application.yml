@@ -13,7 +13,6 @@ spring:
     hibernate:
       ddl-auto: update
 
-
   security:
     oauth2:
       client:
@@ -30,3 +29,7 @@ spring:
             client-secret: f755c6077bb95164ecc0993ad18c02bc262576fd
             scope:
               - user
+
+
+file:
+  dir: "D:/MyProjects/store/crewwork/"

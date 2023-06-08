@@ -13,10 +13,10 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class CrewJoinRequest extends BaseTimeEntity {
+public class CrewJoin extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "crew_join_request_id")
+    @Column(name = "crew_join_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -28,7 +28,7 @@ public class CrewJoinRequest extends BaseTimeEntity {
     private Member member;
 
     @Builder
-    private CrewJoinRequest(Crew crew, Member member) {
+    private CrewJoin(Crew crew, Member member) {
         this.crew = crew;
         this.member = member;
     }

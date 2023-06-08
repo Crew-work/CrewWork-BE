@@ -6,3 +6,22 @@ spring:
         format_sql: true
     hibernate:
       ddl-auto: create
+
+  security:
+    oauth2:
+      client:
+        registration:
+          #          google:
+          #            client-id: 311213724957-bbls722tmkd2cv6cn7emf4k9acbvf7ri.apps.googleusercontent.com
+          #            client-secret: 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
+          #            scope:
+          #              - email
+          #              - profile
+
+          github:
+            client-id: 4e96695d60cf8369c504
+            client-secret: f755c6077bb95164ecc0993ad18c02bc262576fd
+            scope:
+              - user
+file:
+  dir: "D:/MyProjects/store/crewwork/test/"
