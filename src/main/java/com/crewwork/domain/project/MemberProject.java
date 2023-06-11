@@ -15,7 +15,7 @@ import javax.persistence.*;
 public class MemberProject extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "project_id")
+    @Column(name = "member_project_id")
     private Long id;
 
     private String name;

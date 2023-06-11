@@ -1,4 +1,4 @@
-package com.crewwork.application.crew.dto;
+package com.crewwork.application.crew.admin.dto;
 
 import com.crewwork.domain.crew.Crew;
 import lombok.Getter;

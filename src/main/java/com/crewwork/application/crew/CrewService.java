@@ -91,15 +91,4 @@ public class CrewService {
         crewMemberRepository.deleteByMemberIdAndCrewId(memberId, crewId);
     }
 
-    public CrewInfoResponse crewInfo(Long crewId) {
-        Crew crew = crewRepository.findById(crewId).orElseThrow(() -> new BusinessException(ErrorCode.CREW_NOT_FOUND));
-        return new CrewInfoResponse(crew);
-    }
-
-    @Transactional
-    public void crewInfoUpdate(Long crewId, CrewInfoRequest crewInfoRequest) {
-        Crew crew = crewRepository.findById(crewId).orElseThrow(() -> new BusinessException(ErrorCode.CREW_NOT_FOUND));
-        crew.changeInfo(crewInfoRequest.getName(), crewInfoRequest.getIntroduce(), crewInfoRequest.getPicture());
-    }
-
 }

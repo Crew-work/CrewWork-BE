@@ -6,6 +6,7 @@ public enum ErrorCode {
     MEMBER_NOT_FOUND(404, "사용자를 찾을 수 없습니다."),
     CREWJOIN_NOT_FOUND(404, "가입 신청 내역을 찾을 수 없습니다."),
     CREWMEMBER_NOT_FOUND(404, "해당 크루의 사용자를 찾을 수 없습니다."),
+    PROJECT_NOT_FOUND(404, "프로젝트를 찾을 수 없습니다."),
 
     ALREADY_CREW_JOIN_APPLY(400, "이미 가입 신청된 크루입니다."),
     ALREADY_CREW_MEMBER(400, "이미 소속된 크루입니다."),

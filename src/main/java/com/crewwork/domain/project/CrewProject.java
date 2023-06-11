@@ -15,7 +15,7 @@ import javax.persistence.*;
 public class CrewProject extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "project_id")
+    @Column(name = "crew_project_id")
     private Long id;
 
     private String name;
@@ -32,5 +32,11 @@ public class CrewProject extends BaseEntity {
         this.introduce = introduce;
         this.link = link;
         this.crew = crew;
+    }
+
+    public void changeInfo(String name, String introduce, String link) {
+        this.name = name;
+        this.introduce = introduce;
+        this.link = link;
     }
 }

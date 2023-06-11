@@ -12,7 +12,6 @@ import com.crewwork.domain.member.MemberRepository;
 import com.crewwork.domain.project.CrewProject;
 import com.crewwork.domain.project.CrewProjectRepository;
 import com.crewwork.structure.WithMockCustomUser;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -172,51 +171,5 @@ class CrewServiceTest {
 
         // then
         assertThat(findCrewMember.isEmpty()).isTrue();
-    }
-
-    @Test
-    @DisplayName("크루 정보 조회")
-    void crewInfo() throws Exception {
-        // given
-        Crew crew = crewRepository.save(Crew.builder()
-                .name("crew")
-                .introduce("crew introduce")
-                .picture("picture")
-                .build());
-
-        // when
-        CrewInfoResponse crewInfoResponse = crewService.crewInfo(crew.getId());
-
-        // then
-        assertThat(crewInfoResponse.getName()).isEqualTo("crew");
-        assertThat(crewInfoResponse.getIntroduce()).isEqualTo("crew introduce");
-        assertThat(crewInfoResponse.getPicture()).isEqualTo("picture");
-    }
-
-    @Test
-    @DisplayName("크루 정보 수정")
-    void crewInfoUpdate() throws Exception {
-        // given
-        Crew crew = crewRepository.save(Crew.builder()
-                .name("crew")
-                .introduce("crew introduce")
-                .picture("picture")
-                .build());
-
-        CrewInfoRequest crewInfoRequest = CrewInfoRequest.builder()
-                .name("crew2")
-                .introduce("crew2 introduce")
-                .picture("picture2")
-                .build();
-
-        // when
-        crewService.crewInfoUpdate(crew.getId(), crewInfoRequest);
-        Crew findCrew = crewRepository.findById(crew.getId()).get();
-
-        // then
-        assertThat(findCrew.getId()).isEqualTo(crew.getId());
-        assertThat(findCrew.getName()).isEqualTo("crew2");
-        assertThat(findCrew.getIntroduce()).isEqualTo("crew2 introduce");
-        assertThat(findCrew.getPicture()).isEqualTo("picture2");
     }
 }
