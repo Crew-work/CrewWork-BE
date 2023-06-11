@@ -21,7 +21,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
 import java.io.FileInputStream;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -35,6 +37,7 @@ class CrewServiceTest {
     @Autowired CrewProjectRepository crewProjectRepository;
     @Autowired MemberRepository memberRepository;
     @Autowired CrewMemberRepository crewMemberRepository;
+    @Autowired EntityManager em;
 
     @Test
     @WithMockCustomUser(username = "user", nickname = "nick")
@@ -175,5 +178,23 @@ class CrewServiceTest {
         assertThat(myCrews.getTotalElements()).isEqualTo(5);
         assertThat(myCrews.getTotalPages()).isEqualTo(2);
         assertThat(myCrews.getContents().size()).isEqualTo(3);
+    }
+
+    @Test
+    void leave() throws Exception {
+        // given
+        Member member = memberRepository.save(Member.builder().build());
+        Crew crew = crewRepository.save(Crew.builder().build());
+
+        CrewMember crewMember = crewMemberRepository.save(CrewMember.builder()
+                .crew(crew)
+                .member(member).build());
+
+        // when
+        crewService.leave(member.getId(), crew.getId());
+        Optional<CrewMember> findCrewMember = crewMemberRepository.findById(crewMember.getId());
+
+        // then
+        assertThat(findCrewMember.isEmpty()).isTrue();
     }
 }

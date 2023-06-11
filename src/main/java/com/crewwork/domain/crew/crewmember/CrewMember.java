@@ -36,4 +36,8 @@ public class CrewMember extends BaseTimeEntity {
         this.member = member;
         this.role = role;
     }
+
+    public void changeRole(CrewRole role) {
+        this.role = role;
+    }
 }

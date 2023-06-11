@@ -1,4 +1,4 @@
-package com.crewwork.domain.crew.crewrecruitment;
+package com.crewwork.domain.crew.crewjoin;
 
 import com.crewwork.domain.BaseEntity;
 import com.crewwork.domain.crew.Crew;
@@ -12,9 +12,9 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class CrewRecruitmentBoard extends BaseEntity {
+public class CrewJoinBoard extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "crew_recruitment_board_Id")
+    @Column(name = "crew_join_board_Id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -26,7 +26,7 @@ public class CrewRecruitmentBoard extends BaseEntity {
     private String content;
 
     @Builder
-    private CrewRecruitmentBoard(Crew crew, String title, String content) {
+    private CrewJoinBoard(Crew crew, String title, String content) {
         this.crew = crew;
         this.title = title;
         this.content = content;

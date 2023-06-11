@@ -16,6 +16,7 @@ import com.crewwork.domain.project.CrewProjectRepository;
 import com.crewwork.structure.exception.BusinessException;
 import com.crewwork.structure.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -86,6 +87,11 @@ public class CrewService {
                 .totalPages(result.getTotalPages())
                 .pageNumber(result.getNumber())
                 .contents(result.getContent()).build();
+    }
+
+    @Transactional
+    public void leave(Long memberId, Long crewId) {
+        crewMemberRepository.deleteByMemberIdAndCrewId(memberId, crewId);
     }
 
 }
