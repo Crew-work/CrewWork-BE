@@ -27,5 +27,11 @@ public class Crew extends BaseEntity {
         this.introduce = introduce;
         this.picture = picture;
     }
+
+    public void changeInfo(String name, String introduce, String picture) {
+        this.name = name;
+        this.introduce = introduce;
+        this.picture = picture;
+    }
 }
 

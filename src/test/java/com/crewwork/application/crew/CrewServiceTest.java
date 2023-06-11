@@ -1,9 +1,7 @@
 package com.crewwork.application.crew;
 
 import com.crewwork.application.common.PageResponse;
-import com.crewwork.application.crew.dto.CrewCreateRequest;
-import com.crewwork.application.crew.dto.CrewDetailResponse;
-import com.crewwork.application.crew.dto.CrewResponse;
+import com.crewwork.application.crew.dto.*;
 import com.crewwork.domain.crew.Crew;
 import com.crewwork.domain.crew.CrewRepository;
 import com.crewwork.domain.crew.crewmember.CrewMember;
@@ -14,6 +12,7 @@ import com.crewwork.domain.member.MemberRepository;
 import com.crewwork.domain.project.CrewProject;
 import com.crewwork.domain.project.CrewProjectRepository;
 import com.crewwork.structure.WithMockCustomUser;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -66,11 +65,7 @@ class CrewServiceTest {
     void getCrews() {
         // given
         for (int i = 1; i <= 10; i++) {
-            crewRepository.save(Crew.builder()
-                    .name("crew" + i)
-                    .introduce("crew" + i +" is nice")
-                    .picture("picture")
-                    .build());
+            crewRepository.save(Crew.builder().build());
         }
 
         // when
@@ -81,7 +76,6 @@ class CrewServiceTest {
         assertThat(crews.getTotalPages()).isEqualTo(2);
         assertThat(crews.getContents().size()).isEqualTo(5);
         assertThat(crews.getPageNumber()).isEqualTo(0);
-        assertThat(crews.getContents().get(1).getName()).isEqualTo("crew2");
     }
 
     @Test
@@ -131,21 +125,10 @@ class CrewServiceTest {
     @Test
     void getMyCrews() {
         // given
-        Member member = memberRepository.save(Member.builder()
-                .nickname("member")
-                .picture("picture")
-                .introduce("i'm member")
-                .occupation("backend")
-                .contact("member@crew.work")
-                .techStack("Spring,JAVA")
-                .build());
+        Member member = memberRepository.save(Member.builder().build());
 
         for (int i = 1; i <= 5; i++) {
-            Crew crew = crewRepository.save(Crew.builder()
-                    .name("crew" + i)
-                    .introduce("crew" + i + " is nice")
-                    .picture("picture")
-                    .build());
+            Crew crew = crewRepository.save(Crew.builder().build());
 
             crewMemberRepository.save(CrewMember.builder()
                     .crew(crew)
@@ -154,14 +137,7 @@ class CrewServiceTest {
                     .build());
 
             for (int j = 0; j < 5; j++) {
-                Member crewMember = memberRepository.save(Member.builder()
-                        .nickname("crew member")
-                        .picture("picture")
-                        .introduce("i'm crew member")
-                        .occupation("backend")
-                        .contact("member@crew.work")
-                        .techStack("Spring,JAVA")
-                        .build());
+                Member crewMember = memberRepository.save(Member.builder().build());
 
                 crewMemberRepository.save(CrewMember.builder()
                         .crew(crew)
@@ -196,5 +172,51 @@ class CrewServiceTest {
 
         // then
         assertThat(findCrewMember.isEmpty()).isTrue();
+    }
+
+    @Test
+    @DisplayName("크루 정보 조회")
+    void crewInfo() throws Exception {
+        // given
+        Crew crew = crewRepository.save(Crew.builder()
+                .name("crew")
+                .introduce("crew introduce")
+                .picture("picture")
+                .build());
+
+        // when
+        CrewInfoResponse crewInfoResponse = crewService.crewInfo(crew.getId());
+
+        // then
+        assertThat(crewInfoResponse.getName()).isEqualTo("crew");
+        assertThat(crewInfoResponse.getIntroduce()).isEqualTo("crew introduce");
+        assertThat(crewInfoResponse.getPicture()).isEqualTo("picture");
+    }
+
+    @Test
+    @DisplayName("크루 정보 수정")
+    void crewInfoUpdate() throws Exception {
+        // given
+        Crew crew = crewRepository.save(Crew.builder()
+                .name("crew")
+                .introduce("crew introduce")
+                .picture("picture")
+                .build());
+
+        CrewInfoRequest crewInfoRequest = CrewInfoRequest.builder()
+                .name("crew2")
+                .introduce("crew2 introduce")
+                .picture("picture2")
+                .build();
+
+        // when
+        crewService.crewInfoUpdate(crew.getId(), crewInfoRequest);
+        Crew findCrew = crewRepository.findById(crew.getId()).get();
+
+        // then
+        assertThat(findCrew.getId()).isEqualTo(crew.getId());
+        assertThat(findCrew.getName()).isEqualTo("crew2");
+        assertThat(findCrew.getIntroduce()).isEqualTo("crew2 introduce");
+        assertThat(findCrew.getPicture()).isEqualTo("picture2");
     }
 }

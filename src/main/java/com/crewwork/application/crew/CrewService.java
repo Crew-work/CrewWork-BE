@@ -1,9 +1,7 @@
 package com.crewwork.application.crew;
 
 import com.crewwork.application.common.PageResponse;
-import com.crewwork.application.crew.dto.CrewCreateRequest;
-import com.crewwork.application.crew.dto.CrewDetailResponse;
-import com.crewwork.application.crew.dto.CrewResponse;
+import com.crewwork.application.crew.dto.*;
 import com.crewwork.application.file.FileStore;
 import com.crewwork.application.file.UploadFile;
 import com.crewwork.domain.crew.Crew;
@@ -16,7 +14,6 @@ import com.crewwork.domain.project.CrewProjectRepository;
 import com.crewwork.structure.exception.BusinessException;
 import com.crewwork.structure.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -92,6 +89,17 @@ public class CrewService {
     @Transactional
     public void leave(Long memberId, Long crewId) {
         crewMemberRepository.deleteByMemberIdAndCrewId(memberId, crewId);
+    }
+
+    public CrewInfoResponse crewInfo(Long crewId) {
+        Crew crew = crewRepository.findById(crewId).orElseThrow(() -> new BusinessException(ErrorCode.CREW_NOT_FOUND));
+        return new CrewInfoResponse(crew);
+    }
+
+    @Transactional
+    public void crewInfoUpdate(Long crewId, CrewInfoRequest crewInfoRequest) {
+        Crew crew = crewRepository.findById(crewId).orElseThrow(() -> new BusinessException(ErrorCode.CREW_NOT_FOUND));
+        crew.changeInfo(crewInfoRequest.getName(), crewInfoRequest.getIntroduce(), crewInfoRequest.getPicture());
     }
 
 }
