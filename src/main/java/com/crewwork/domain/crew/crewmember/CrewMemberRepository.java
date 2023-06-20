@@ -26,4 +26,6 @@ public interface CrewMemberRepository extends JpaRepository<CrewMember, Long> {
 
     boolean existsByMemberIdAndCrewId(Long memberId, Long crewId);
 
+    void deleteByCrewId(Long crewId);
+
 }

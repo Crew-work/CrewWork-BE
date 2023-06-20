@@ -6,6 +6,11 @@ import com.crewwork.application.crew.admin.dto.CrewInfoResponse;
 import com.crewwork.application.crew.admin.dto.CrewProjectResponse;
 import com.crewwork.domain.crew.Crew;
 import com.crewwork.domain.crew.CrewRepository;
+import com.crewwork.domain.crew.crewmember.CrewMember;
+import com.crewwork.domain.crew.crewmember.CrewMemberRepository;
+import com.crewwork.domain.crew.crewmember.CrewRole;
+import com.crewwork.domain.member.Member;
+import com.crewwork.domain.member.MemberRepository;
 import com.crewwork.domain.project.CrewProject;
 import com.crewwork.domain.project.CrewProjectRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -28,6 +33,8 @@ class CrewAdminServiceTest {
     @Autowired CrewAdminService crewAdminService;
     @Autowired CrewRepository crewRepository;
     @Autowired CrewProjectRepository crewProjectRepository;
+    @Autowired MemberRepository memberRepository;
+    @Autowired CrewMemberRepository crewMemberRepository;
 
 
     @Test
@@ -170,5 +177,33 @@ class CrewAdminServiceTest {
 
         // then
         assertThat(findCrewProject).isEmpty();
+    }
+
+    @Test
+    @DisplayName("크루 삭제")
+    void removeCrew() throws Exception {
+        // given
+        Crew crew = crewRepository.save(Crew.builder().build());
+        Member owner = memberRepository.save(Member.builder().build());
+        CrewMember crewOwner = crewMemberRepository.save(CrewMember.builder()
+                .crew(crew)
+                .member(owner)
+                .role(CrewRole.OWNER)
+                .build());
+
+        Member member = memberRepository.save(Member.builder().build());
+        CrewMember crewMember = crewMemberRepository.save(CrewMember.builder()
+                .crew(crew)
+                .member(member)
+                .role(CrewRole.MEMBER)
+                .build());
+
+        // when
+        crewAdminService.removeCrew(crew.getId());
+
+        // then
+        assertThat(crewRepository.findById(crew.getId())).isEmpty();
+        assertThat(crewMemberRepository.findById(crewOwner.getId())).isEmpty();
+        assertThat(crewMemberRepository.findById(crewMember.getId())).isEmpty();
     }
 }

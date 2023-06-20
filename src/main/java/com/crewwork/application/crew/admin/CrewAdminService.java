@@ -9,6 +9,7 @@ import com.crewwork.application.file.FileStore;
 import com.crewwork.application.file.UploadFile;
 import com.crewwork.domain.crew.Crew;
 import com.crewwork.domain.crew.CrewRepository;
+import com.crewwork.domain.crew.crewmember.CrewMemberRepository;
 import com.crewwork.domain.project.CrewProject;
 import com.crewwork.domain.project.CrewProjectRepository;
 import com.crewwork.structure.exception.BusinessException;
@@ -28,6 +29,7 @@ public class CrewAdminService {
 
     private final CrewRepository crewRepository;
     private final CrewProjectRepository crewProjectRepository;
+    private final CrewMemberRepository crewMemberRepository;
     private final FileStore fileStore;
 
     public CrewInfoResponse crewInfo(Long crewId) {
@@ -40,7 +42,7 @@ public class CrewAdminService {
         Crew crew = crewRepository.findById(crewId).orElseThrow(() -> new BusinessException(ErrorCode.CREW_NOT_FOUND));
 
         UploadFile uploadFile = fileStore.storeFile(crewInfoRequest.getPicture());
-        crew.changeInfo(crewInfoRequest.getName(), crewInfoRequest.getIntroduce(), uploadFile.getStoreFileName());
+        crew.changeInfo(crewInfoRequest.getName(), crewInfoRequest.getIntroduce(), fileStore.getFullPath(uploadFile.getStoreFileName()));
     }
 
     public List<CrewProjectResponse> projectList(Long crewId) {
@@ -75,5 +77,14 @@ public class CrewAdminService {
     @Transactional
     public void removeProject(Long crewId, Long projectId) {
         crewProjectRepository.deleteByCrewIdAndId(crewId, projectId);
+    }
+
+    @Transactional
+    public void removeCrew(Long crewId) {
+        Crew crew = crewRepository.findById(crewId).orElseThrow(() -> new BusinessException(ErrorCode.CREW_NOT_FOUND));
+        crewMemberRepository.deleteByCrewId(crewId);
+
+        fileStore.removeFile(crew.getPicture());
+        crewRepository.delete(crew);
     }
 }

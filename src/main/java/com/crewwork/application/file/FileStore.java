@@ -14,6 +14,10 @@ public class FileStore {
     @Value("${file.dir}")
     private String fileDir;
 
+    public String getFullPath(String storeFileName) {
+        return fileDir + storeFileName;
+    }
+
     public UploadFile storeFile(MultipartFile multipartFile) throws IOException {
         if(multipartFile.isEmpty()) {
             return null;
@@ -28,8 +32,14 @@ public class FileStore {
         return new UploadFile(originalFileName, storeFileName, fileSize);
     }
 
-    public String getFullPath(String storeFileName) {
-        return fileDir + storeFileName;
+    public void removeFile(String storeFileName) {
+        String storedPath = getFullPath(storeFileName);
+
+        File file = new File(storedPath);
+
+        if (file.exists()) {
+            file.delete();
+        }
     }
 
     private String createStoreFileName(String originalFileName) {
