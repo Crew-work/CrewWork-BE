@@ -48,7 +48,7 @@ public class CrewService {
         Crew crew = crewRepository.save(Crew.builder()
                 .name(crewCreateRequest.getName())
                 .introduce(crewCreateRequest.getIntroduce())
-                .picture(fileStore.getFullPath(uploadFile.getStoreFileName()))
+                .picture(uploadFile.getStoreFileName())
                 .build());
 
         return crew.getId();

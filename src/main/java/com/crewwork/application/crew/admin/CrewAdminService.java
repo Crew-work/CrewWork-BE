@@ -41,6 +41,7 @@ public class CrewAdminService {
     public void crewInfoUpdate(Long crewId, CrewInfoRequest crewInfoRequest) throws IOException {
         Crew crew = crewRepository.findById(crewId).orElseThrow(() -> new BusinessException(ErrorCode.CREW_NOT_FOUND));
 
+        fileStore.removeFile(crew.getPicture());
         UploadFile uploadFile = fileStore.storeFile(crewInfoRequest.getPicture());
         crew.changeInfo(crewInfoRequest.getName(), crewInfoRequest.getIntroduce(), fileStore.getFullPath(uploadFile.getStoreFileName()));
     }

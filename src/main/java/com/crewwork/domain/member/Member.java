@@ -44,4 +44,13 @@ public class Member extends BaseTimeEntity {
         this.techStack = techStack;
         this.introduce = introduce;
     }
+
+    public void changeInfo(String nickname, String picture, String contact, String occupation, String techStack, String introduce) {
+        this.nickname = nickname;
+        this.picture = picture;
+        this.contact = contact;
+        this.occupation = occupation;
+        this.techStack = techStack;
+        this.introduce = introduce;
+    }
 }

@@ -33,4 +33,10 @@ public class MemberProject extends BaseTimeEntity {
         this.link = link;
         this.member = member;
     }
+
+    public void changeInfo(String name, String introduce, String link) {
+        this.name = name;
+        this.introduce = introduce;
+        this.link = link;
+    }
 }

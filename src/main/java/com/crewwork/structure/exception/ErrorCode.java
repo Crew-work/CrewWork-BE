@@ -11,7 +11,8 @@ public enum ErrorCode {
     ALREADY_CREW_JOIN_APPLY(400, "이미 가입 신청된 크루입니다."),
     ALREADY_CREW_MEMBER(400, "이미 소속된 크루입니다."),
 
-    CANNOT_KICK_OWNER(400, "크루장을 추방할 수 없습니다.");
+    CANNOT_KICK_OWNER(400, "크루장을 추방할 수 없습니다."),
+    CANNOT_UPDATE_PROJECT(400, "프로젝트 정보를 수정할 수 없습니다.");
 
     private final int status;
     private final String message;
