@@ -1,4 +1,4 @@
-package com.crewwork.application.login;
+package com.crewwork.application.login.dto;
 
 import lombok.Data;
 

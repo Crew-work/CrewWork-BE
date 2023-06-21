@@ -1,10 +1,11 @@
-package com.crewwork.application.login;
+package com.crewwork.application.login.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class LoginCallbackResponse {
+public class ReIssuanceTokenResponse {
+
     private String accessToken;
 }
