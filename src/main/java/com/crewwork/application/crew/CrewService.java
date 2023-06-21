@@ -64,26 +64,14 @@ public class CrewService {
     public PageResponse<CrewResponse> getCrews(Pageable pageable) {
         Page<CrewResponse> crewPage = crewRepository.findAll(pageable).map(CrewResponse::new);
 
-        return PageResponse.<CrewResponse>builder()
-                .first(crewPage.isFirst())
-                .last(crewPage.isLast())
-                .totalElements(crewPage.getTotalElements())
-                .totalPages(crewPage.getTotalPages())
-                .pageNumber(crewPage.getNumber())
-                .contents(crewPage.getContent()).build();
+        return new PageResponse<>(crewPage);
     }
 
     public PageResponse<CrewResponse> getMyCrews(Long memberId, Pageable pageable) {
         Page<Crew> crewPage = crewMemberRepository.findCrewByMemberId(memberId, pageable);
         Page<CrewResponse> result = crewPage.map(CrewResponse::new);
 
-        return PageResponse.<CrewResponse>builder()
-                .first(result.isFirst())
-                .last(result.isLast())
-                .totalElements(result.getTotalElements())
-                .totalPages(result.getTotalPages())
-                .pageNumber(result.getNumber())
-                .contents(result.getContent()).build();
+        return new PageResponse<>(result);
     }
 
     @Transactional
